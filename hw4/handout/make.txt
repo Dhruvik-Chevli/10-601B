@@ -1,0 +1,23 @@
+python feature.py ./smalldata/smalltrain_data.tsv ./smalldata/smallvalid_data.tsv ./smalldata/smalltest_data.tsv dict.txt ./outputs/smalloutput/model1_formatted_train.tsv ./outputs/smalloutput/model1_formatted_valid.tsv ./outputs/smalloutput/model1_formatted_test.tsv 1
+
+python feature.py ./smalldata/smalltrain_data.tsv ./smalldata/smallvalid_data.tsv ./smalldata/smalltest_data.tsv dict.txt ./outputs/smalloutput/model2_formatted_train.tsv ./outputs/smalloutput/model2_formatted_valid.tsv ./outputs/smalloutput/model2_formatted_test.tsv 2
+
+python feature.py ./largedata/train_data.tsv ./largedata/valid_data.tsv ./largedata/test_data.tsv dict.txt ./outputs/largeoutput/model1_formatted_train.tsv ./outputs/largeoutput/model1_formatted_valid.tsv ./outputs/largeoutput/model1_formatted_test.tsv 1
+
+python feature.py ./largedata/train_data.tsv ./largedata/valid_data.tsv ./largedata/test_data.tsv dict.txt ./outputs/largeoutput/model2_formatted_train.tsv ./outputs/largeoutput/model2_formatted_valid.tsv ./outputs/largeoutput/model2_formatted_test.tsv 2
+
+python lr.py ./outputs/smalloutput/model1_formatted_train.tsv ./outputs/smalloutput/model1_formatted_valid.tsv ./outputs/smalloutput/model1_formatted_test.tsv dict.txt ./outputs/smalloutput/model1train_out.labels ./outputs/smalloutput/model1test_out.labels ./outputs/smalloutput/model1metrics_out.txt 30
+
+python lr.py ./outputs/smalloutput/model2_formatted_train.tsv ./outputs/smalloutput/model2_formatted_valid.tsv ./outputs/smalloutput/model2_formatted_test.tsv dict.txt ./outputs/smalloutput/model2train_out.labels ./outputs/smalloutput/model2test_out.labels ./outputs/smalloutput/model2metrics_out.txt 60
+
+python lr.py ./outputs/largeoutput/model1_formatted_train.tsv ./outputs/largeoutput/model1_formatted_valid.tsv ./outputs/largeoutput/model1_formatted_test.tsv dict.txt ./outputs/largeoutput/model1train_out.labels ./outputs/largeoutput/model1test_out.labels ./outputs/largeoutput/model1metrics_out.txt 60
+
+python lr.py ./outputs/largeoutput/model2_formatted_train.tsv ./outputs/largeoutput/model2_formatted_valid.tsv ./outputs/largeoutput/model2_formatted_test.tsv dict.txt ./outputs/largeoutput/model2train_out.labels ./outputs/largeoutput/model2test_out.labels ./outputs/largeoutput/model2metrics_out.txt 60
+
+python lr.py ./outputs/largeoutput/model1_formatted_train.tsv ./outputs/largeoutput/model1_formatted_valid.tsv ./outputs/largeoutput/model1_formatted_test.tsv dict.txt ./outputs/largeoutput/model150train_out.labels ./outputs/largeoutput/model150test_out.labels ./outputs/largeoutput/model150metrics_out.txt 50
+
+python lr.py ./outputs/largeoutput/model2_formatted_train.tsv ./outputs/largeoutput/model2_formatted_valid.tsv ./outputs/largeoutput/model2_formatted_test.tsv dict.txt ./outputs/largeoutput/model250train_out.labels ./outputs/largeoutput/model250test_out.labels ./outputs/largeoutput/model250metrics_out.txt 50
+
+python lr.py ./outputs/largeoutput/model1_formatted_train.tsv ./outputs/largeoutput/model1_formatted_valid.tsv ./outputs/largeoutput/model1_formatted_test.tsv dict.txt ./outputs/largeoutput/model1200train_out.labels ./outputs/largeoutput/model1200test_out.labels ./outputs/largeoutput/model1200metrics_out.txt 200
+
+python lr.py ./outputs/largeoutput/model2_formatted_train.tsv ./outputs/largeoutput/model2_formatted_valid.tsv ./outputs/largeoutput/model2_formatted_test.tsv dict.txt ./outputs/largeoutput/model2200train_out.labels ./outputs/largeoutput/model2200test_out.labels ./outputs/largeoutput/model2200metrics_out.txt 200
