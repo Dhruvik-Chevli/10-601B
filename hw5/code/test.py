@@ -1,9 +1,9 @@
 import numpy as np
 import math
 
-alpha = np.array([[1,1,2,-3,0,1,-3],[1,3,1,2,1,0,2],[1,2,2,2,2,2,1],[1,1,0,2,1,-2,2]])
+# alpha = np.array([[1,1,2,-3,0,1,-3],[1,3,1,2,1,0,2],[1,2,2,2,2,2,1],[1,1,0,2,1,-2,2]])
 alpha_reg = np.array([[1,2,-3,0,1,-3],[3,1,2,1,0,2],[2,2,2,2,2,1],[1,0,2,1,-2,2]])
-# alpha = np.array([[1,10,20,-30,0,10,-30],[1,30,10,20,10,0,20],[1,20,20,20,20,20,10],[1,10,0,20,10,-20,20]])
+alpha = np.array([[1,10,20,-30,0,10,-30],[1,30,10,20,10,0,20],[1,20,20,20,20,20,10],[1,10,0,20,10,-20,20]])
 # alpha_reg = np.array([[10,20,-30,0,10,-30],[30,10,20,10,0,20],[20,20,20,20,20,10],[10,0,20,10,-20,20]])
 beta = np.array([[1,1,2,-2,1],[1,1,-1,1,2],[1,3,1,-1,1]])
 beta_reg = np.array([[1,2,-2,1],[1,-1,1,2],[3,1,-1,1]])
@@ -34,7 +34,7 @@ def cross_entropy_forward(a, a_hat):
     return -np.matmul(a.T,np.log(a_hat))
 
 def cross_entropy_forward_reg(a, a_hat):
-    return -np.matmul(a.T,np.log(a_hat)) + gamma*(np.linalg.norm(alpha_reg)**2) + gamma*(np.linalg.norm(beta_reg)**2)
+    return -np.matmul(a.T,np.log(a_hat)) + 0.5*gamma*(np.linalg.norm(alpha_reg)**2) + 0.5*gamma*(np.linalg.norm(beta_reg)**2)
 
 def cross_entropy_backward(a, a_hat):
     return -np.divide(a,a_hat)
@@ -47,6 +47,7 @@ def feed_forward_reg(x,y):
     b = np.add(1,b)
     y_hat = softmax_forward(b)
     J = cross_entropy_forward_reg(y,y_hat)
+    print (J)
     return x,a,z,b,y_hat,J
 
 def feed_forward(x, y):
@@ -73,19 +74,19 @@ def back_propagate(x, y, args):
 x = np.array([1,1,1,0,0,1,1])
 y = np.array([0,1,0])
 x_reg = np.array([1,1,0,0,1,1])
-for i in range(0,100):
-    # x,a,z,b,y_hat,J = feed_forward(x,y)
-    # galpha, gbeta = back_propagate(x,y,[x,a,z,b,y_hat,J])
-    # print (np.min(galpha), np.max(galpha), np.min(gbeta), np.max(gbeta))
-    x,a,z,b,y_hat,J = feed_forward_reg(x_reg,y)
-    galpha, gbeta = back_propagate(x,y,[x,a,z,b,y_hat,J])
-    print (np.min(galpha), np.max(galpha), np.min(gbeta), np.max(gbeta))
-    alpha = alpha_reg - galpha
-    beta = beta_reg - gbeta
+# for i in range(0,100):
+#     # x,a,z,b,y_hat,J = feed_forward(x,y)
+#     # galpha, gbeta = back_propagate(x,y,[x,a,z,b,y_hat,J])
+#     # print (np.min(galpha), np.max(galpha), np.min(gbeta), np.max(gbeta))
+#     x,a,z,b,y_hat,J = feed_forward_reg(x_reg,y)
+#     galpha, gbeta = back_propagate(x,y,[x,a,z,b,y_hat,J])
+#     print (np.min(galpha), np.max(galpha), np.min(gbeta), np.max(gbeta))
+#     alpha = alpha_reg - galpha
+#     beta = beta_reg - gbeta
 
-# x_reg = np.array([1,1,0,0,1,1])
-# y = np.array([0,1,0])
-# x,a,z,b,y_hat,J = feed_forward_reg(x_reg,y)
+x_reg = np.array([1,1,0,0,1,1])
+y = np.array([0,1,0])
+x,a,z,b,y_hat,J = feed_forward_reg(x_reg,y)
 # print (J)
 # # x,a,z,b,y_hat,J = feed_forward(x,y)
 # # print (J)
