@@ -1,0 +1,3 @@
+python forwardbackward.py ../data/toydata/toytrain.txt ../data/toydata/toy_index_to_word.txt ../data/toydata/toy_index_to_tag.txt ../results/toydata/hmmprior.txt ../results/toydata/hmmemit.txt ../results/toydata/hmmtrans.txt ../results/toydata/predicted.txt ../results/toydata/metrics.txt
+
+python forwardbackward.py ../data/fulldata/testwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/hmmprior.txt ../results/fulldata/hmmemit.txt ../results/fulldata/hmmtrans.txt ../results/fulldata/predicted.txt ../results/fulldata/metrics.txt
