@@ -1,3 +1,30 @@
-python forwardbackward.py ../data/toydata/toytrain.txt ../data/toydata/toy_index_to_word.txt ../data/toydata/toy_index_to_tag.txt ../results/toydata/hmmprior.txt ../results/toydata/hmmemit.txt ../results/toydata/hmmtrans.txt ../results/toydata/predicted.txt ../results/toydata/metrics.txt
+python forwardbackward.py ../data/toydata/toytest.txt ../data/toydata/toy_index_to_word.txt ../data/toydata/toy_index_to_tag.txt ../results/toydata/hmmprior.txt ../results/toydata/hmmemit.txt ../results/toydata/hmmtrans.txt ../results/toydata/predicted.txt ../results/toydata/metrics.txt
 
 python forwardbackward.py ../data/fulldata/testwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/hmmprior.txt ../results/fulldata/hmmemit.txt ../results/fulldata/hmmtrans.txt ../results/fulldata/predicted.txt ../results/fulldata/metrics.txt
+
+python learnhmm.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len10/hmmprior.txt ../results/fulldata/len10/hmmemit.txt ../results/fulldata/len10/hmmtrans.txt
+
+python learnhmm.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len100/hmmprior.txt ../results/fulldata/len100/hmmemit.txt ../results/fulldata/len100/hmmtrans.txt
+
+python learnhmm.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len1000/hmmprior.txt ../results/fulldata/len1000/hmmemit.txt ../results/fulldata/len1000/hmmtrans.txt
+
+python learnhmm.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len10000/hmmprior.txt ../results/fulldata/len10000/hmmemit.txt ../results/fulldata/len10000/hmmtrans.txt
+
+
+
+python forwardbackward.py ../data/fulldata/testwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len10/hmmprior.txt ../results/fulldata/len10/hmmemit.txt ../results/fulldata/len10/hmmtrans.txt ../results/fulldata/len10/testpredicted.txt ../results/fulldata/len10/testmetrics.txt
+
+python forwardbackward.py ../data/fulldata/testwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len100/hmmprior.txt ../results/fulldata/len100/hmmemit.txt ../results/fulldata/len100/hmmtrans.txt ../results/fulldata/len100/testpredicted.txt ../results/fulldata/len100/testmetrics.txt
+
+python forwardbackward.py ../data/fulldata/testwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len1000/hmmprior.txt ../results/fulldata/len1000/hmmemit.txt ../results/fulldata/len1000/hmmtrans.txt ../results/fulldata/len1000/testpredicted.txt ../results/fulldata/len1000/testmetrics.txt
+
+python forwardbackward.py ../data/fulldata/testwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len10000/hmmprior.txt ../results/fulldata/len10000/hmmemit.txt ../results/fulldata/len10000/hmmtrans.txt ../results/fulldata/len10000/testpredicted.txt ../results/fulldata/len10000/testmetrics.txt
+
+
+python forwardbackward.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len10/hmmprior.txt ../results/fulldata/len10/hmmemit.txt ../results/fulldata/len10/hmmtrans.txt ../results/fulldata/len10/trainpredicted.txt ../results/fulldata/len10/trainmetrics.txt
+
+python forwardbackward.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len100/hmmprior.txt ../results/fulldata/len100/hmmemit.txt ../results/fulldata/len100/hmmtrans.txt ../results/fulldata/len100/trainpredicted.txt ../results/fulldata/len100/trainmetrics.txt
+
+python forwardbackward.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len1000/hmmprior.txt ../results/fulldata/len1000/hmmemit.txt ../results/fulldata/len1000/hmmtrans.txt ../results/fulldata/len1000/trainpredicted.txt ../results/fulldata/len1000/trainmetrics.txt
+
+python forwardbackward.py ../data/fulldata/trainwords.txt ../data/fulldata/index_to_word.txt ../data/fulldata/index_to_tag.txt ../results/fulldata/len10000/hmmprior.txt ../results/fulldata/len10000/hmmemit.txt ../results/fulldata/len10000/hmmtrans.txt ../results/fulldata/len10000/trainpredicted.txt ../results/fulldata/len10000/trainmetrics.txt

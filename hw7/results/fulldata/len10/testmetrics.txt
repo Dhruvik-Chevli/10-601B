@@ -1,0 +1,2 @@
+Average Log-LikeLikhood: -7.624574522874662
+Accuracy: 0.8325220980491413

@@ -22,6 +22,7 @@ def tokenizer(train_input, index_to_word, index_to_tag):
     word_length = len(word_lines)
 
     combo = []
+    # dict_lines = dict_lines[:100]
     length = len(dict_lines)
     for i in range(0, length):
         line = dict_lines[i]

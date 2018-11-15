@@ -2,6 +2,10 @@ import numpy as np
 import sys
 import learnhmm as lh
 
+def normalize(vec):
+    vec = vec/np.sum(vec)
+    return vec
+
 def calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans):
     length = len(combo)
     alpha = np.zeros((tag_length, length))
@@ -10,14 +14,17 @@ def calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans):
     for k in range(0, tag_length):
         alpha[k,0] = hmmprior[k] * hmmemit[k,x_0]
 
+    if length != 1:
+        alpha[:,0] = normalize(alpha[:,0])
+
     for t in range(1, length):
         x_t = combo[t][0]
         for k in range(0, tag_length):
             alpha[k,t] = hmmemit[k,x_t] * sum([alpha[j,t-1]*hmmtrans[j,k] for j in range(0, tag_length)])
+        if t != length-1:
+            alpha[:,t] = normalize(alpha[:,t])
 
-    unrefined_alpha = alpha
-    alpha = alpha/np.sum(alpha, axis=0)
-    return alpha, unrefined_alpha
+    return alpha
 
 def calcBetas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans):
     length = len(combo)
@@ -26,16 +33,17 @@ def calcBetas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans):
     for k in range(0, tag_length):
         beta[k, length-1] = 1.0
 
+    beta[:,length-1] = normalize(beta[:,length-1])
+
     for t in range(length-2, -1, -1):
         x_t = combo[t+1][0]
         for k in range(0, tag_length):
             beta[k,t] = sum([hmmtrans[k,j]*hmmemit[j,x_t]*beta[j, t+1] for j in range(0, tag_length)])
+        beta[:,t] = normalize(beta[:,t])
 
-    beta = beta/np.sum(beta, axis=0)
-    # print (beta)
     return beta
 
-def getPredictionAndLikelihood(combo, alpha, unrefined_alpha, beta, tag_length):
+def getPredictionAndLikelihood(combo, alpha, beta, tag_length):
     predicted_combo = []
     correct_count = 0
     length = len(combo)
@@ -49,10 +57,7 @@ def getPredictionAndLikelihood(combo, alpha, unrefined_alpha, beta, tag_length):
         predicted_combo.append((combo[t][0], y_t))
 
     acc_list = (correct_count, length)
-    # print (alpha, unrefined_alpha, unrefined_alpha[:,length-1])
-    ll = np.log(np.sum(unrefined_alpha[:,length-1]))
-    # ll = np.sum(unrefined_alpha[:,length-1])
-    print (ll)
+    ll = np.log(np.sum(alpha[:,length-1]))
 
     return predicted_combo, acc_list, ll
 
@@ -65,7 +70,6 @@ def writePredictions(index_to_word, index_to_tag, final_predictions, predicted):
     with open(index_to_tag) as infile:
         tag_lines = infile.readlines()
 
-    # print (index_to_word, index_to_tag)
     predicted_string = ""
     for predict in final_predictions:
         temp_string = ""
@@ -103,9 +107,9 @@ if __name__ == "__main__":
     final_accuracies = []
     final_ll = []
     for combo in combos:
-        alpha, unrefined_alpha = calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
+        alpha = calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
         beta = calcBetas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
-        prediction, acc_list, ll = getPredictionAndLikelihood(combo, alpha, unrefined_alpha, beta, tag_length)
+        prediction, acc_list, ll = getPredictionAndLikelihood(combo, alpha, beta, tag_length)
         final_predictions.append(prediction)
         final_accuracies.append(acc_list)
         final_ll.append(ll)
@@ -118,11 +122,9 @@ if __name__ == "__main__":
 
     accuracy = float(correct_count)/total_count
     avg_ll = sum(final_ll)/len(final_ll)
-    # print (accuracy, avg_ll)
 
     metric_string = "Average Log-LikeLikhood: " + str(avg_ll) + "\n" + "Accuracy: " + str(accuracy)
     with open(metric_file, 'w') as outfile:
         outfile.writelines(metric_string)
 
     writePredictions(index_to_word, index_to_tag, final_predictions, predicted)
-    
