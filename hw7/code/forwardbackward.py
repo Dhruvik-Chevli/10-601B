@@ -14,15 +14,15 @@ def calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans):
     for k in range(0, tag_length):
         alpha[k,0] = hmmprior[k] * hmmemit[k,x_0]
 
-    if length != 1:
-        alpha[:,0] = normalize(alpha[:,0])
+    # if length != 1:
+    #     alpha[:,0] = normalize(alpha[:,0])
 
     for t in range(1, length):
         x_t = combo[t][0]
         for k in range(0, tag_length):
             alpha[k,t] = hmmemit[k,x_t] * sum([alpha[j,t-1]*hmmtrans[j,k] for j in range(0, tag_length)])
-        if t != length-1:
-            alpha[:,t] = normalize(alpha[:,t])
+        # if t != length-1:
+        #     alpha[:,t] = normalize(alpha[:,t])
 
     return alpha
 
@@ -33,13 +33,13 @@ def calcBetas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans):
     for k in range(0, tag_length):
         beta[k, length-1] = 1.0
 
-    beta[:,length-1] = normalize(beta[:,length-1])
+    # beta[:,length-1] = normalize(beta[:,length-1])
 
     for t in range(length-2, -1, -1):
         x_t = combo[t+1][0]
         for k in range(0, tag_length):
             beta[k,t] = sum([hmmtrans[k,j]*hmmemit[j,x_t]*beta[j, t+1] for j in range(0, tag_length)])
-        beta[:,t] = normalize(beta[:,t])
+        # beta[:,t] = normalize(beta[:,t])
 
     return beta
 
@@ -47,17 +47,22 @@ def getPredictionAndLikelihood(combo, alpha, beta, tag_length):
     predicted_combo = []
     correct_count = 0
     length = len(combo)
+    print ("Length is: ", length)
     
     for t in range(0, length):
         alpha_t = alpha[:,t]
         beta_t = beta[:,t]
         y_t = np.argmax(np.multiply(alpha_t, beta_t))
+        # if t == 4:
+            # print ("a is: ", alpha_t, " b is: ", beta_t)
+            # print ("ab is: ", np.sum(np.multiply(alpha_t, beta_t)))
         if y_t == combo[t][1]:
             correct_count += 1
         predicted_combo.append((combo[t][0], y_t))
 
     acc_list = (correct_count, length)
     ll = np.log(np.sum(alpha[:,length-1]))
+    # print ("LL is: ", np.sum(alpha[:,length-1]), " alphaT is: ", alpha[:,length-1])
 
     return predicted_combo, acc_list, ll
 
@@ -107,6 +112,7 @@ if __name__ == "__main__":
     final_accuracies = []
     final_ll = []
     for combo in combos:
+        # if len(combo) == 20:
         alpha = calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
         beta = calcBetas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
         prediction, acc_list, ll = getPredictionAndLikelihood(combo, alpha, beta, tag_length)

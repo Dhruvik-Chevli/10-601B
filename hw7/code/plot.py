@@ -6,7 +6,7 @@ x = [1,2,3,4]
 
 plt.plot(x, trainmetrics, color='b', marker='^')
 plt.plot(x, testmetrics, color='r', marker='o')
-plt.xlabel('Log-Scale # Sequences')
+plt.xlabel('Log-Scale 10 # Sequences')
 plt.ylabel('Average Log-Likelihood')
 plt.legend(('Train LL', 'Test LL'))
 plt.title('#Sequences vs Avg. Log-Likelihood')
