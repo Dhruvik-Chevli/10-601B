@@ -46,6 +46,7 @@ def feed_forward_reg(x,y):
     b = linear_forward(z, beta_reg)
     b = np.add(1,b)
     y_hat = softmax_forward(b)
+    print (y_hat, y)
     J = cross_entropy_forward_reg(y,y_hat)
     print (J)
     return x,a,z,b,y_hat,J

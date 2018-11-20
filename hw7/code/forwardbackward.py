@@ -47,22 +47,27 @@ def getPredictionAndLikelihood(combo, alpha, beta, tag_length):
     predicted_combo = []
     correct_count = 0
     length = len(combo)
-    print ("Length is: ", length)
+    # print ("Length is: ", length)
     
+    ll_test = np.sum(alpha[:,length-1])
     for t in range(0, length):
         alpha_t = alpha[:,t]
         beta_t = beta[:,t]
         y_t = np.argmax(np.multiply(alpha_t, beta_t))
         # if t == 4:
-            # print ("a is: ", alpha_t, " b is: ", beta_t)
-            # print ("ab is: ", np.sum(np.multiply(alpha_t, beta_t)))
+        #     # print ("a is: ", alpha_t, " b is: ", beta_t)
+        #     ab = np.multiply(ll_test,np.sum(np.multiply(alpha_t, beta_t)))
+        #     print ("ab is: ", np.sqrt(ab))
+        #     print ("ll is: ", ll_test)
+        #     # if (ab == ll_test):
+        #         # print ('here')
         if y_t == combo[t][1]:
             correct_count += 1
         predicted_combo.append((combo[t][0], y_t))
 
     acc_list = (correct_count, length)
     ll = np.log(np.sum(alpha[:,length-1]))
-    # print ("LL is: ", np.sum(alpha[:,length-1]), " alphaT is: ", alpha[:,length-1])
+    # print ("LL is: ", ll_test)
 
     return predicted_combo, acc_list, ll
 
@@ -112,7 +117,7 @@ if __name__ == "__main__":
     final_accuracies = []
     final_ll = []
     for combo in combos:
-        # if len(combo) == 20:
+        # if len(combo) > 4:
         alpha = calcAlphas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
         beta = calcBetas(combo, tag_length, word_length, hmmprior, hmmemit, hmmtrans)
         prediction, acc_list, ll = getPredictionAndLikelihood(combo, alpha, beta, tag_length)
