@@ -4,13 +4,14 @@ from value_iteration import create_states_actions
 
 class Environment():
     def __init__(self, filename):
-        transitions, state_graph, _, _, start_state, goal_state = create_states_actions(filename)
+        transitions, state_graph, num_states, num_actions, start_state, goal_state = create_states_actions(filename)
 
         self.transitions = transitions
         self.state_graph = state_graph
         self.start_state = start_state
         self.goal_state = goal_state
-        
+        self.num_states = num_states
+        self.num_actions = num_actions
         # set curr state to initial stage
         self.curr_state = start_state
 
@@ -45,6 +46,7 @@ if __name__ == "__main__":
     terminal_string = ""
     for i in range(0, len(actions)):
         next_state, reward, is_terminal = env.step(actions[i])
+        reward = int(reward)
         state_string += str(next_state) + " "
         reward_string += str(reward) + " "
         terminal_string += str(is_terminal) + " "
@@ -67,4 +69,3 @@ if __name__ == "__main__":
     
     with open(output_file, 'w') as outfile:
         outfile.writelines(actual_file_string)
-        

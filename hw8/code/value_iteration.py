@@ -60,7 +60,6 @@ def create_states_actions(filename):
                         transitions[state][a] = (-1.0, state, 1, 0)
 
                 if a == 2 and j != len(lines[0])-1:
-                    # print (lines, lines[i][j], i,j, len(lines[0])-1)
                     if lines[i][j+1] != '*':
                         next_state = int(list(state_graph.keys())[list(state_graph.values()).index((i,j+1))])
                         is_terminal = 1 if next_state == goal_state else 0
@@ -135,7 +134,7 @@ if __name__ == "__main__":
     Q_string = ""
     for k, v in state_graph.items():
         k = int(k)
-        value_string += str(k) + " " + str(v[0]) + " " + str(v[1]) + " " + str(V[k]) + "\n"
+        value_string += str(v[0]) + " " + str(v[1]) + " " + str(V[k]) + "\n"
         policy_string += str(v[0]) + " " + str(v[1]) + " " + str(new_policy[k]) + "\n"
 
         for a in range(0, num_actions):
