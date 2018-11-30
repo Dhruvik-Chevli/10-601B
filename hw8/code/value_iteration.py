@@ -11,6 +11,10 @@ def create_states_actions(filename):
 
     state = 0
     total_states = 0
+
+    start_state = 0
+    goal_state = 0
+
     state_graph = dict()
     for i in range(0, len(lines)):
         chars = list(lines[i])
@@ -18,6 +22,10 @@ def create_states_actions(filename):
             if chars[j] == '*':
                 continue
             state_graph[str(state)] = (i,j)
+            if chars[j] == 'S':
+                start_state = state
+            if chars[j] == 'G':
+                goal_state = state
             state += 1
             total_states += 1
 
@@ -31,58 +39,63 @@ def create_states_actions(filename):
         for j in range(0, len(chars)):
             if chars[j] == '*':
                 continue
+
             state = int(list(state_graph.keys())[list(state_graph.values()).index((i,j))])
             for a in range(num_actions):
                 if j == 0 and a == 0:
-                    transitions[state][a] = (-1.0, state, 1)
+                    transitions[state][a] = (-1.0, state, 1, 0)
                 if j == len(lines[0])-1 and a == 2:
-                    transitions[state][a] = (-1.0, state, 1)
+                    transitions[state][a] = (-1.0, state, 1, 0)
                 if i == 0 and a == 1:
-                    transitions[state][a] = (-1.0, state, 1)
+                    transitions[state][a] = (-1.0, state, 1, 0)
                 if i == len(lines)-1 and a == 3:
-                    transitions[state][a] = (-1.0, state, 1)
+                    transitions[state][a] = (-1.0, state, 1, 0)
                 
                 if a == 0 and j != 0:
                     if lines[i][j-1] != '*':
                         next_state = int(list(state_graph.keys())[list(state_graph.values()).index((i,j-1))])
-                        transitions[state][a] = (-1.0, next_state, 1)
+                        is_terminal = 1 if next_state == goal_state else 0
+                        transitions[state][a] = (-1.0, next_state, 1, is_terminal)
                     else:
-                        transitions[state][a] = (-1.0, state, 1)
+                        transitions[state][a] = (-1.0, state, 1, 0)
 
                 if a == 2 and j != len(lines[0])-1:
                     # print (lines, lines[i][j], i,j, len(lines[0])-1)
                     if lines[i][j+1] != '*':
                         next_state = int(list(state_graph.keys())[list(state_graph.values()).index((i,j+1))])
-                        transitions[state][a] = (-1.0, next_state, 1)
+                        is_terminal = 1 if next_state == goal_state else 0
+                        transitions[state][a] = (-1.0, next_state, 1, is_terminal)
                     else:
-                        transitions[state][a] = (-1.0, state, 1)
+                        transitions[state][a] = (-1.0, state, 1, 0)
 
                 if a == 1 and i != 0:
                     if lines[i-1][j] != '*':
                         next_state = int(list(state_graph.keys())[list(state_graph.values()).index((i-1,j))])
-                        transitions[state][a] = (-1.0, next_state, 1)
+                        is_terminal = 1 if next_state == goal_state else 0
+                        transitions[state][a] = (-1.0, next_state, 1, is_terminal)
                     else:
-                        transitions[state][a] = (-1.0, state, 1)
+                        transitions[state][a] = (-1.0, state, 1, 0)
 
                 if a == 3 and i != len(lines)-1:
                     if lines[i+1][j] != '*':
                         next_state = int(list(state_graph.keys())[list(state_graph.values()).index((i+1,j))])
-                        transitions[state][a] = (-1.0, next_state, 1)
+                        is_terminal = 1 if next_state == goal_state else 0
+                        transitions[state][a] = (-1.0, next_state, 1, is_terminal)
                     else:
-                        transitions[state][a] = (-1.0, state, 1)
+                        transitions[state][a] = (-1.0, state, 1, 0)
 
             if chars[j] == 'G':
                 for a in range(num_actions):
-                    transitions[state][a] = (0, state, 1)
+                    transitions[state][a] = (0, state, 1, 1)
     
-    return transitions, state_graph, num_states, num_actions
+    return transitions, state_graph, num_states, num_actions, start_state, goal_state
 
 def valueiter(num_states, num_actions, num_epochs, transition, discount_factor):
 
     def one_step_lookahead(state, V):
         A = np.zeros(num_actions)
         for a in range(0, num_actions):
-            reward, next_state, prob = transition[state][a]
+            reward, next_state, prob, _ = transition[state][a]
             A[a] += prob * (reward  + discount_factor*V[next_state])
         return A
 
@@ -106,7 +119,7 @@ def computeQ(num_states, num_actions, transition, discount_factor, V):
     def one_step_lookahead(state, V):
         A = np.zeros(num_actions)
         for a in range(0, num_actions):
-            reward, next_state, prob = transition[state][a]
+            reward, next_state, prob, _ = transition[state][a]
             A[a] += prob * (reward  + discount_factor*V[next_state])
         return A
 
@@ -124,7 +137,7 @@ if __name__ == "__main__":
     num_epochs = int(sys.argv[5])
     discount_factor = float(sys.argv[6])
 
-    transitions, state_graph, num_states, num_actions = create_states_actions(maze_input)
+    transitions, state_graph, num_states, num_actions, start_state, goal_state = create_states_actions(maze_input)
     policy, V = valueiter(num_states, num_actions, num_epochs, transitions, discount_factor)
     new_policy = np.array(np.argmax(policy, axis=1), np.float32)
     Q = computeQ(num_states, num_actions, transitions, discount_factor, V)
