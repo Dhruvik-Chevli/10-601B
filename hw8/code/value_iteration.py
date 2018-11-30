@@ -111,23 +111,12 @@ def valueiter(num_states, num_actions, num_epochs, transition, discount_factor):
         best_action = np.argmax(A)
         policy[s][best_action] = 1.0
 
-    return policy, V
-
-def computeQ(num_states, num_actions, transition, discount_factor, V):
     Q = np.zeros((num_states, num_actions))
-
-    def one_step_lookahead(state, V):
-        A = np.zeros(num_actions)
-        for a in range(0, num_actions):
-            reward, next_state, prob, _ = transition[state][a]
-            A[a] += prob * (reward  + discount_factor*V[next_state])
-        return A
-
     for s in range(0, num_states):
             A = one_step_lookahead(s,V)
             Q[s] = A
-
-    return Q
+    
+    return policy, V, Q
 
 if __name__ == "__main__":
     maze_input = sys.argv[1]
@@ -138,9 +127,8 @@ if __name__ == "__main__":
     discount_factor = float(sys.argv[6])
 
     transitions, state_graph, num_states, num_actions, start_state, goal_state = create_states_actions(maze_input)
-    policy, V = valueiter(num_states, num_actions, num_epochs, transitions, discount_factor)
+    policy, V, Q = valueiter(num_states, num_actions, num_epochs, transitions, discount_factor)
     new_policy = np.array(np.argmax(policy, axis=1), np.float32)
-    Q = computeQ(num_states, num_actions, transitions, discount_factor, V)
 
     value_string = ""
     policy_string = ""
