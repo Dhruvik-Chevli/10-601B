@@ -1,0 +1,5 @@
+python value_iteration.py ../data/maze_2.txt ../results/value_output_2.txt ../results/q_value_output_2.txt ../results/policy_output_2.txt 20 0.9
+
+python value_iteration.py ../data/maze_1.txt ../results/value_output_1.txt ../results/q_value_output_1.txt ../results/policy_output_1.txt 20 0.9
+
+python value_iteration.py ../data/medium_maze.txt ../results/value_output_med.txt ../results/q_value_output_med.txt ../results/policy_output_med.txt 20 0.9
