@@ -15,3 +15,5 @@ If you are here for learning different concepts, please go ahead and refer any o
 ### Assignment 5 - Neural Networks (Practicum)
 ### Assignment 6 - Learning Theory, Naive Bayes, MLE/MAP (Theory)
 ### Assignment 7 - Hidden Markov Models (Practicum)
+### Assignment 8 - Reinforcement Learning (Practicum)
+### Assignment 9 - SVM, kMeans, PCA, Kernels (Theory)
