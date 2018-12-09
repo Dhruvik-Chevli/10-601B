@@ -121,8 +121,6 @@ def valueiter(num_states, num_actions, num_epochs, transition, discount_factor):
             break
 
     end = time.time() - start
-    # print ("time taken: ", end)
-    # print ("iterations", itr)
 
     policy = np.zeros((num_states, num_actions))
     for s in range(0, num_states):
